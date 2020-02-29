@@ -1,0 +1,21 @@
+{
+  "name": "react-datepicker-demo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html"
+  },
+  "author": "Leonard Lin <gwokae@gmail.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "react-datepicker": "file:..",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "parcel-bundler": "^1.12.4"
+  }
+}

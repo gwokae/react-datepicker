@@ -1,0 +1,39 @@
+{
+  "name": "react-datepicker",
+  "author": "Leonard Lin <gwokae@gmail.com>",
+  "version": "0.1.0",
+  "private": true,
+  "module": "lib/index.js",
+  "main": "lib/index.js",
+  "peerDependencies": {
+    "react": "16.12.x",
+    "react-dom": "16.12.x"
+  },
+  "dependencies": {
+    "styled-components": "^5.0.0",
+    "@babel/polyfill": "^7.8.3",
+    "classnames": "^2.2.6",
+    "node-sass": "^4.13.1"
+  },
+  "scripts": {
+    "build": "rimraf lib && npm run build-js",
+    "build-js": "webpack",
+    "build-js-watch": "webpack --watch --info-verbosity verbose"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-proposal-export-default-from": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.18.3",
+    "file-loader": "^5.0.2",
+    "rimraf": "^3.0.1",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
