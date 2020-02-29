@@ -206,17 +206,32 @@ const Calendar = (props) => {
   const options = Object.assign({}, CALENDAR_DEFAULT_OPTIONS, props.options);
   const yearList = getYearRange(currYear);
 
-  const prevMonth = () =>
-    setState([
-      currMonth === 0 ? currYear - 1 : currYear,
-      currMonth === 0 ? 11 : currMonth - 1,
-    ]);
-
-  const nextMonth = () =>
-    setState([
-      currMonth === 11 ? currYear + 1 : currYear,
-      currMonth === 11 ? 0 : currMonth + 1,
-    ]);
+  const clickPrev = () => {
+    if (mode === 'date') {
+      setState([
+        currMonth === 0 ? currYear - 1 : currYear,
+        currMonth === 0 ? 11 : currMonth - 1,
+        mode,
+      ]);
+    } else if (mode === 'month') {
+      setState([currYear - 1, currMonth, mode]);
+    } else {
+      setState([currYear - 12, currMonth, mode]);
+    }
+  };
+  const clickNext = () => {
+    if (mode === 'date') {
+      setState([
+        currMonth === 11 ? currYear + 1 : currYear,
+        currMonth === 11 ? 0 : currMonth + 1,
+        mode,
+      ]);
+    } else if (mode === 'month') {
+      setState([currYear + 1, currMonth, mode]);
+    } else {
+      setState([currYear + 12, currMonth, mode]);
+    }
+  };
   const clickMain = () => {
     const newCurr = [currYear, currMonth];
     if (mode === 'date') {
@@ -239,13 +254,13 @@ const Calendar = (props) => {
   };
   return (
     <Container>
-      <Navigation className='clickable' onClick={prevMonth}>
+      <Navigation className='clickable' onClick={clickPrev}>
         &lt;
       </Navigation>
       <MainButton className='clickable' onClick={clickMain}>
         {MainText()}
       </MainButton>
-      <Navigation className='clickable' onClick={nextMonth}>
+      <Navigation className='clickable' onClick={clickNext}>
         &gt;
       </Navigation>
       {mode === 'date' ? (
