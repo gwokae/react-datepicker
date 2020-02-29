@@ -89,10 +89,10 @@ const Calendar = (props) => {
     onSelect,
     options = CALENDAR_DEFAULT_OPTIONS,
   } = props;
-  const [mode, setMode] = useState(date.getFullYear());
-  const [[currYear, currMonth], setCurr] = useState([
+  const [[currYear, currMonth, mode], setCurr] = useState([
     date.getFullYear(),
     date.getMonth(),
+    'date',
   ]);
 
   let dayOfWeek = [];
@@ -111,13 +111,34 @@ const Calendar = (props) => {
       currMonth === 11 ? currYear + 1 : currYear,
       currMonth === 11 ? 0 : currMonth + 1,
     ]);
+  const clickMain = () => {
+    const newCurr = [currYear, currMonth];
+    if (mode === 'date') {
+      newCurr.push('month');
+    } else if (mode === 'month') {
+      newCurr.push('year');
+    } else {
+      newCurr.push('date');
+    }
+    setCurr(newCurr);
+  };
+  const MainText = () => {
+    if (mode === 'date') {
+      return formatDate(getDate(currYear, currMonth), { format: 'MMM YYYY' });
+    } else if (mode === 'month') {
+      return currYear;
+    } else {
+      const yearBase = Math.floor(currYear / 10);
+      return `${yearBase}0-${yearBase + 1}0`;
+    }
+  };
   return (
     <Container>
       <Navigation className='clickable' onClick={prevMonth}>
         &lt;
       </Navigation>
-      <MainButton className='clickable'>
-        {formatDate(getDate(currYear, currMonth), { format: 'MMM YYYY' })}
+      <MainButton className='clickable' onClick={clickMain}>
+        {MainText()}
       </MainButton>
       <Navigation className='clickable' onClick={nextMonth}>
         &gt;
