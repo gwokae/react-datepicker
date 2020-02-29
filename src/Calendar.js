@@ -170,8 +170,7 @@ const getYearRange = (currYear, size = 12) => {
   return result;
 };
 const SelectYear = (props) => {
-  const { selectedDate, currYear, currMonth, setState } = props;
-  const yearList = getYearRange(currYear);
+  const { selectedDate, currYear, currMonth, setState, yearList } = props;
   return (
     <>
       {yearList.map((year) => (
@@ -194,6 +193,7 @@ SelectYear.propTypes = {
   currYear: PropTypes.number,
   currMonth: PropTypes.number,
   setState: PropTypes.func,
+  yearList: PropTypes.array,
 };
 
 const Calendar = (props) => {
@@ -204,6 +204,7 @@ const Calendar = (props) => {
     'date',
   ]);
   const options = Object.assign({}, CALENDAR_DEFAULT_OPTIONS, props.options);
+  const yearList = getYearRange(currYear);
 
   const prevMonth = () =>
     setState([
@@ -233,8 +234,7 @@ const Calendar = (props) => {
     } else if (mode === 'month') {
       return currYear;
     } else {
-      const yearBase = Math.floor(currYear / 10);
-      return `${yearBase}0-${yearBase + 1}0`;
+      return `${yearList[0]}-${yearList[yearList.length - 1]}`;
     }
   };
   return (
@@ -272,6 +272,7 @@ const Calendar = (props) => {
           currYear={currYear}
           currMonth={currMonth}
           setState={setState}
+          yearList={yearList}
         />
       ) : null}
     </Container>
