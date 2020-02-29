@@ -162,6 +162,40 @@ SelectMonth.propTypes = {
   currMonth: PropTypes.number,
   setState: PropTypes.func,
 };
+const getYearRange = (currYear, size = 12) => {
+  const result = [];
+  for (let i = 0; i < size; i++) {
+    result.unshift(currYear + (size / 2 - i));
+  }
+  return result;
+};
+const SelectYear = (props) => {
+  const { selectedDate, currYear, currMonth, setState } = props;
+  const yearList = getYearRange(currYear);
+  return (
+    <>
+      {yearList.map((year) => (
+        <FourCellsRowItem
+          key={year}
+          className={classnames({
+            clickable: true,
+            selected: selectedDate.getFullYear() === year,
+          })}
+          onClick={() => setState([year, currMonth, 'month'])}
+        >
+          {year}
+        </FourCellsRowItem>
+      ))}
+    </>
+  );
+};
+SelectYear.propTypes = {
+  selectedDate: PropTypes.date,
+  currYear: PropTypes.number,
+  currMonth: PropTypes.number,
+  setState: PropTypes.func,
+};
+
 const Calendar = (props) => {
   const { date = new Date(), onSelect } = props;
   const [[currYear, currMonth, mode], setState] = useState([
@@ -229,9 +263,15 @@ const Calendar = (props) => {
           selectedDate={date}
           currYear={currYear}
           currMonth={currMonth}
-          options={options}
           setState={setState}
-          onSelect={onSelect}
+        />
+      ) : null}
+      {mode === 'year' ? (
+        <SelectYear
+          selectedDate={date}
+          currYear={currYear}
+          currMonth={currMonth}
+          setState={setState}
         />
       ) : null}
     </Container>
