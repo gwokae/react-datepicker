@@ -35,10 +35,15 @@ export const CALENDAR_DEFAULT_OPTIONS = {
 };
 const isCalendarEnd = (base, current, options) => {
   const startDay = options.startDay === 0 ? 7 : options.startDay;
+  // only ends on the last day of the week
   if (startDay - current.getDay() !== 1) return false;
 
   // current is next month
-  if (base.getMonth() < current.getMonth()) return true;
+  if (
+    base.getMonth() < current.getMonth() ||
+    (base.getMonth() === 11 && current.getMonth() === 0)
+  )
+    return true;
 
   // current is last date of the month
   const next = addDays(current, 1);
@@ -71,37 +76,37 @@ export const formatDate = (d, options = CALENDAR_DEFAULT_OPTIONS) => {
   const { format } = options;
   let result = format;
   // handle year
-  if (result.match(/YYYY/)) {
-    result = result.replace(/YYYY/, d.getFullYear());
-  } else if (result.match(/YY/)) {
-    result = result.replace(/YY/, String(d.getFullYear()).slice(2));
+  if (result.match(/\bYYYY\b/)) {
+    result = result.replace(/\bYYYY\b/, d.getFullYear());
+  } else if (result.match(/\bYY\b/)) {
+    result = result.replace(/\bYY\b/, String(d.getFullYear()).slice(2));
   }
 
   // handle month
-  if (result.match(/MMMM/)) {
-    result = result.replace(/MMMM/, MONTH[d.getMonth()].full);
-  } else if (result.match(/MMM/)) {
-    result = result.replace(/MMM/, MONTH[d.getMonth()].short);
-  } else if (result.match(/MM/)) {
-    result = result.replace(/MM/, padZeroStart(d.getMonth() + 1));
-  } else if (result.match(/M/)) {
-    result = result.replace(/M/, d.getMonth() + 1);
+  if (result.match(/\bMMMM\b/)) {
+    result = result.replace(/\bMMMM\b/, MONTH[d.getMonth()].full);
+  } else if (result.match(/\bMMM\b/)) {
+    result = result.replace(/\bMMM\b/, MONTH[d.getMonth()].short);
+  } else if (result.match(/\bMM\b/)) {
+    result = result.replace(/\bMM\b/, padZeroStart(d.getMonth() + 1));
+  } else if (result.match(/\bM\b/)) {
+    result = result.replace(/\bM\b/, d.getMonth() + 1);
   }
 
   // handle date
-  if (result.match(/DD/)) {
-    result = result.replace(/DD/, padZeroStart(d.getDate()));
-  } else if (result.match(/D/)) {
-    result = result.replace(/D/, d.getDate());
+  if (result.match(/\bDD\b/)) {
+    result = result.replace(/\bDD\b/, padZeroStart(d.getDate()));
+  } else if (result.match(/\bD\b/)) {
+    result = result.replace(/\bD\b/, d.getDate());
   }
 
   // handle day of week
-  if (result.match(/dddd/)) {
-    result = result.replace(/dddd/, DAY[d.getDay()].full);
-  } else if (result.match(/ddd/)) {
-    result = result.replace(/ddd/, DAY[d.getDay()].short);
-  } else if (result.match(/dd/)) {
-    result = result.replace(/dd/, DAY[d.getDay()].sShort);
+  if (result.match(/\bdddd\b/)) {
+    result = result.replace(/\bdddd\b/, DAY[d.getDay()].full);
+  } else if (result.match(/\bddd\b/)) {
+    result = result.replace(/\bddd\b/, DAY[d.getDay()].short);
+  } else if (result.match(/\bdd\b/)) {
+    result = result.replace(/\bdd\b/, DAY[d.getDay()].sShort);
   }
   return result;
 };
