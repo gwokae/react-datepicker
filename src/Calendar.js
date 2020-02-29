@@ -170,7 +170,7 @@ const getYearRange = (currYear, size = 12) => {
   return result;
 };
 const SelectYear = (props) => {
-  const { selectedDate, currYear, currMonth, setState, yearList } = props;
+  const { selectedDate, currMonth, setState, yearList } = props;
   return (
     <>
       {yearList.map((year) => (
@@ -190,7 +190,6 @@ const SelectYear = (props) => {
 };
 SelectYear.propTypes = {
   selectedDate: PropTypes.date,
-  currYear: PropTypes.number,
   currMonth: PropTypes.number,
   setState: PropTypes.func,
   yearList: PropTypes.array,

@@ -58,7 +58,8 @@ export const getCalendar = (
 ) => {
   const base = getDate(year, month);
   base.setDate(1);
-  let current = addDays(base, (base.getDay() - options.startDay) * -1);
+  let diffStart = (base.getDay() - options.startDay + 7) % 7;
+  let current = addDays(base, diffStart * -1);
   const result = [current];
 
   while (!isCalendarEnd(base, current, options)) {
