@@ -99,13 +99,29 @@ const Calendar = (props) => {
   for (let i = 0; i < 7; i++) {
     dayOfWeek.push(DAY[(options.startDay + i) % DAY.length]);
   }
+
+  const prevMonth = () =>
+    setCurr([
+      currMonth === 0 ? currYear - 1 : currYear,
+      currMonth === 0 ? 11 : currMonth - 1,
+    ]);
+
+  const nextMonth = () =>
+    setCurr([
+      currMonth === 11 ? currYear + 1 : currYear,
+      currMonth === 11 ? 0 : currMonth + 1,
+    ]);
   return (
     <Container>
-      <Navigation className='clickable'>&lt;</Navigation>
+      <Navigation className='clickable' onClick={prevMonth}>
+        &lt;
+      </Navigation>
       <MainButton className='clickable'>
         {formatDate(getDate(currYear, currMonth), { format: 'MMM YYYY' })}
       </MainButton>
-      <Navigation className='clickable'>&gt;</Navigation>
+      <Navigation className='clickable' onClick={nextMonth}>
+        &gt;
+      </Navigation>
       {dayOfWeek.map((dow) => (
         <DayOfWeekItem key={dow.full}>{dow.sShort}</DayOfWeekItem>
       ))}
