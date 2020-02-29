@@ -8,10 +8,12 @@ import {
   equalsDate,
   formatDate,
   getDate,
+  MONTH,
   DAY,
   CALENDAR_DEFAULT_OPTIONS,
 } from './utils/date';
 const CELL_SIZE = '36px';
+const CELL_SIZE_L = '56px';
 
 const Container = styled.div`
   display: flex;
@@ -78,9 +80,11 @@ const DateItem = styled(SevenCellsRowItem)`
 const DayOfWeekItem = styled(SevenCellsRowItem)`
   font-weight: bold;
 `;
-
 const FourCellsRowItem = styled(FlexItem)`
-  flex-basis: ${100 / 4}%;
+  flex-basis: ${CELL_SIZE_L};
+  height: ${CELL_SIZE_L};
+  line-height: ${CELL_SIZE_L};
+  border-radius: 100%;
 `;
 
 const SelectDate = (props) => {
@@ -113,7 +117,7 @@ const SelectDate = (props) => {
             if (d.getMonth() === currMonth) {
               onSelect(d);
             } else {
-              setState([d.getFullYear(), d.getMonth()]);
+              setState([d.getFullYear(), d.getMonth(), 'date']);
             }
           }}
         >
@@ -132,6 +136,32 @@ SelectDate.propTypes = {
   onSelect: PropTypes.func,
 };
 
+const SelectMonth = (props) => {
+  const { selectedDate, currYear, currMonth, setState } = props;
+  return (
+    <>
+      {MONTH.map((month, monthId) => (
+        <FourCellsRowItem
+          key={monthId}
+          className={classnames({
+            clickable: true,
+            selected:
+              selectedDate.getFullYear() === currYear && currMonth === monthId,
+          })}
+          onClick={() => setState([currYear, monthId, 'date'])}
+        >
+          {month.short}
+        </FourCellsRowItem>
+      ))}
+    </>
+  );
+};
+SelectMonth.propTypes = {
+  selectedDate: PropTypes.date,
+  currYear: PropTypes.number,
+  currMonth: PropTypes.number,
+  setState: PropTypes.func,
+};
 const Calendar = (props) => {
   const { date = new Date(), onSelect } = props;
   const [[currYear, currMonth, mode], setState] = useState([
@@ -186,6 +216,16 @@ const Calendar = (props) => {
       </Navigation>
       {mode === 'date' ? (
         <SelectDate
+          selectedDate={date}
+          currYear={currYear}
+          currMonth={currMonth}
+          options={options}
+          setState={setState}
+          onSelect={onSelect}
+        />
+      ) : null}
+      {mode === 'month' ? (
+        <SelectMonth
           selectedDate={date}
           currYear={currYear}
           currMonth={currMonth}
