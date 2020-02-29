@@ -83,31 +83,72 @@ const FourCellsRowItem = styled(FlexItem)`
   flex-basis: ${100 / 4}%;
 `;
 
-const Calendar = (props) => {
+const SelectDate = (props) => {
   const {
-    date = new Date(),
+    selectedDate,
+    currYear,
+    currMonth,
+    options,
+    setState,
     onSelect,
-    options = CALENDAR_DEFAULT_OPTIONS,
   } = props;
-  const [[currYear, currMonth, mode], setCurr] = useState([
-    date.getFullYear(),
-    date.getMonth(),
-    'date',
-  ]);
-
   let dayOfWeek = [];
   for (let i = 0; i < 7; i++) {
     dayOfWeek.push(DAY[(options.startDay + i) % DAY.length]);
   }
+  return (
+    <>
+      {dayOfWeek.map((dow) => (
+        <DayOfWeekItem key={dow.full}>{dow.sShort}</DayOfWeekItem>
+      ))}
+      {getCalendar(currYear, currMonth, options).map((d) => (
+        <DateItem
+          key={d.toISOString()}
+          className={classnames({
+            clickable: true,
+            selected: equalsDate(d, selectedDate),
+            invalid: d.getMonth() !== currMonth,
+          })}
+          onClick={() => {
+            if (d.getMonth() === currMonth) {
+              onSelect(d);
+            } else {
+              setState([d.getFullYear(), d.getMonth()]);
+            }
+          }}
+        >
+          {d.getDate()}
+        </DateItem>
+      ))}
+    </>
+  );
+};
+SelectDate.propTypes = {
+  selectedDate: PropTypes.date,
+  currYear: PropTypes.number,
+  currMonth: PropTypes.number,
+  options: PropTypes.object,
+  setState: PropTypes.func,
+  onSelect: PropTypes.func,
+};
+
+const Calendar = (props) => {
+  const { date = new Date(), onSelect } = props;
+  const [[currYear, currMonth, mode], setState] = useState([
+    date.getFullYear(),
+    date.getMonth(),
+    'date',
+  ]);
+  const options = Object.assign({}, CALENDAR_DEFAULT_OPTIONS, props.options);
 
   const prevMonth = () =>
-    setCurr([
+    setState([
       currMonth === 0 ? currYear - 1 : currYear,
       currMonth === 0 ? 11 : currMonth - 1,
     ]);
 
   const nextMonth = () =>
-    setCurr([
+    setState([
       currMonth === 11 ? currYear + 1 : currYear,
       currMonth === 11 ? 0 : currMonth + 1,
     ]);
@@ -120,7 +161,7 @@ const Calendar = (props) => {
     } else {
       newCurr.push('date');
     }
-    setCurr(newCurr);
+    setState(newCurr);
   };
   const MainText = () => {
     if (mode === 'date') {
@@ -143,28 +184,16 @@ const Calendar = (props) => {
       <Navigation className='clickable' onClick={nextMonth}>
         &gt;
       </Navigation>
-      {dayOfWeek.map((dow) => (
-        <DayOfWeekItem key={dow.full}>{dow.sShort}</DayOfWeekItem>
-      ))}
-      {getCalendar(currYear, currMonth, options).map((d) => (
-        <DateItem
-          key={d.toISOString()}
-          className={classnames({
-            clickable: true,
-            selected: equalsDate(d, date),
-            invalid: d.getMonth() !== currMonth,
-          })}
-          onClick={() => {
-            if (d.getMonth() === currMonth) {
-              onSelect(d);
-            } else {
-              setCurr([d.getFullYear(), d.getMonth()]);
-            }
-          }}
-        >
-          {d.getDate()}
-        </DateItem>
-      ))}
+      {mode === 'date' ? (
+        <SelectDate
+          selectedDate={date}
+          currYear={currYear}
+          currMonth={currMonth}
+          options={options}
+          setState={setState}
+          onSelect={onSelect}
+        />
+      ) : null}
     </Container>
   );
 };
