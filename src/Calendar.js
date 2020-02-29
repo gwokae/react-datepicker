@@ -202,7 +202,7 @@ const Calendar = (props) => {
     date.getMonth(),
     'date',
   ]);
-  const options = Object.assign({}, CALENDAR_DEFAULT_OPTIONS, props.options);
+  const options = { ...CALENDAR_DEFAULT_OPTIONS, ...props.options };
   const yearList = getYearRange(currYear);
 
   const clickPrev = () => {
