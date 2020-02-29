@@ -10,9 +10,10 @@
   "author": "Leonard Lin <gwokae@gmail.com>",
   "license": "UNLICENSED",
   "dependencies": {
-    "react-datepicker": "file:..",
     "react": "^16.13.0",
-    "react-dom": "^16.13.0"
+    "react-datepicker": "file:..",
+    "react-dom": "^16.13.0",
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

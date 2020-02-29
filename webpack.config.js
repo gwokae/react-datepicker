@@ -7,6 +7,7 @@ module.exports = {
   externals: {
     react: 'react',
     reactDOM: 'react-dom',
+    'styled-components': 'styled-components',
   },
   output: {
     path: path.resolve(__dirname, 'lib'),
