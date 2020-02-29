@@ -65,7 +65,7 @@ export const getCalendar = (
 };
 
 // workaround padStart is not avaliable on IE
-const padZeroStart = (num) => (num < 10 ? '0' : '' + num);
+const padZeroStart = (num) => (num < 10 ? '0' : '') + num;
 
 export const formatDate = (d, options = CALENDAR_DEFAULT_OPTIONS) => {
   const { format } = options;

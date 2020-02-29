@@ -67,10 +67,16 @@ const FourCellsRowItem = styled(FlexItem)`
 `;
 
 const Calendar = (props) => {
-  const { date = new Date(), options = CALENDAR_DEFAULT_OPTIONS } = props;
+  const {
+    date = new Date(),
+    onSelect,
+    options = CALENDAR_DEFAULT_OPTIONS,
+  } = props;
   const [mode, setMode] = useState(date.getFullYear());
-  const [currYear, setCurrYear] = useState(date.getFullYear());
-  const [currMonth, setCurrMonth] = useState(date.getMonth());
+  const [[currYear, currMonth], setCurr] = useState([
+    date.getFullYear(),
+    date.getMonth(),
+  ]);
 
   let dayOfWeek = [];
   for (let i = 0; i < 7; i++) {
@@ -93,6 +99,13 @@ const Calendar = (props) => {
             selected: equalsDate(d, date),
             invalid: d.getMonth() !== currMonth,
           })}
+          onClick={() => {
+            if (d.getMonth() === currMonth) {
+              onSelect(d);
+            } else {
+              setCurr([d.getFullYear(), d.getMonth()]);
+            }
+          }}
         >
           {d.getDate()}
         </DateItem>
@@ -104,5 +117,6 @@ const Calendar = (props) => {
 Calendar.propTypes = {
   date: PropTypes.instanceOf(Date),
   options: PropTypes.object,
+  onSelect: PropTypes.func,
 };
 export default Calendar;
