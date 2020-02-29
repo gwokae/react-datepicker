@@ -30,22 +30,40 @@ const FlexItem = styled.div`
   margin: 0.3em 0;
   flex: 0 1 auto;
 
+  &.clickable {
+    cursor: pointer;
+    &:hover {
+      background: #eee;
+    }
+  }
   &.selected {
     background: #db3d44;
     color: white;
     font-weight: bold;
+    &.clickable:hover {
+      background: #db3d44;
+    }
   }
   &.invalid {
     color: #eee;
+    &.clickable:hover {
+      color: white;
+    }
   }
 `;
 const Navigation = styled(FlexItem)`
   flex-basis: calc(10% - 0.5em);
   text-align: center;
+  height: 1.6em;
+  line-height: 1.6em;
+  border-radius: 0.4em;
 `;
 const MainButton = styled(FlexItem)`
   flex-basis: 80%;
   text-align: center;
+  height: 1.6em;
+  line-height: 1.6em;
+  border-radius: 0.4em;
 `;
 const SevenCellsRowItem = styled(FlexItem)`
   flex-basis: ${CELL_SIZE};
@@ -55,7 +73,6 @@ const SevenCellsRowItem = styled(FlexItem)`
 
 const DateItem = styled(SevenCellsRowItem)`
   border-radius: 100%;
-  cursor: pointer;
 `;
 
 const DayOfWeekItem = styled(SevenCellsRowItem)`
@@ -84,11 +101,11 @@ const Calendar = (props) => {
   }
   return (
     <Container>
-      <Navigation>&lt;</Navigation>
-      <MainButton>
+      <Navigation className='clickable'>&lt;</Navigation>
+      <MainButton className='clickable'>
         {formatDate(getDate(currYear, currMonth), { format: 'MMM YYYY' })}
       </MainButton>
-      <Navigation>&gt;</Navigation>
+      <Navigation className='clickable'>&gt;</Navigation>
       {dayOfWeek.map((dow) => (
         <DayOfWeekItem key={dow.full}>{dow.sShort}</DayOfWeekItem>
       ))}
@@ -96,6 +113,7 @@ const Calendar = (props) => {
         <DateItem
           key={d.toISOString()}
           className={classnames({
+            clickable: true,
             selected: equalsDate(d, date),
             invalid: d.getMonth() !== currMonth,
           })}
