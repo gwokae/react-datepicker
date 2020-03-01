@@ -31,7 +31,7 @@ export const DAY = [
 
 export const CALENDAR_DEFAULT_OPTIONS = {
   startDay: 0,
-  format: 'MMM D, YYYY',
+  format: 'YYYY-MM-DD',
 };
 const isCalendarEnd = (base, current, options) => {
   const startDay = options.startDay === 0 ? 7 : options.startDay;

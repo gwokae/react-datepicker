@@ -6,6 +6,8 @@ const App = () => {
   const [calendarDate1, setCalendarDate1] = useState(new Date());
   return (
     <>
+      <h1>DatePicker</h1>
+      <DatePicker />
       <h1>Calendar</h1>
       <div>
         {DatePicker.Utils.formatDate(calendarDate, {
@@ -28,8 +30,6 @@ const App = () => {
         onSelect={(d) => setCalendarDate1(d)}
         options={{ startDay: 1 }}
       />
-      <h1>DatePicker</h1>
-      <DatePicker />
       <h1>Author</h1>
       <a href='mailto:gwokae@gmail.com'>Leonard Lin</a>
     </>

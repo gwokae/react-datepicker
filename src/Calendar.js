@@ -128,7 +128,7 @@ const SelectDate = (props) => {
   );
 };
 SelectDate.propTypes = {
-  selectedDate: PropTypes.date,
+  selectedDate: PropTypes.instanceOf(Date),
   currYear: PropTypes.number,
   currMonth: PropTypes.number,
   options: PropTypes.object,
@@ -189,7 +189,7 @@ const SelectYear = (props) => {
   );
 };
 SelectYear.propTypes = {
-  selectedDate: PropTypes.date,
+  selectedDate: PropTypes.instanceOf(Date),
   currMonth: PropTypes.number,
   setState: PropTypes.func,
   yearList: PropTypes.array,
