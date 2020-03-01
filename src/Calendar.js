@@ -196,12 +196,19 @@ SelectYear.propTypes = {
 };
 
 const Calendar = (props) => {
-  const { date = new Date(), onSelect } = props;
+  const { date = new Date(), onSelect, syncCalendar } = props;
   const [[currYear, currMonth, mode], setState] = useState([
     date.getFullYear(),
     date.getMonth(),
     'date',
   ]);
+
+  if (
+    syncCalendar &&
+    (currYear !== date.getFullYear() || currMonth !== date.getMonth())
+  ) {
+    setState([date.getFullYear(), date.getMonth(), mode]);
+  }
   const options = { ...CALENDAR_DEFAULT_OPTIONS, ...props.options };
   const yearList = getYearRange(currYear);
 
@@ -297,5 +304,6 @@ Calendar.propTypes = {
   date: PropTypes.instanceOf(Date),
   options: PropTypes.object,
   onSelect: PropTypes.func,
+  syncCalendar: PropTypes.bool,
 };
 export default Calendar;

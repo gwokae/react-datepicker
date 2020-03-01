@@ -32,6 +32,7 @@ const DatePicker = (props) => {
   };
   const [isActive, setActive] = useState(false);
   const [isInvalidInput, setInvalidInput] = useState(false);
+  const [isSyncCalendar, setSyncCalendar] = useState(false);
   const [dateText, setDateText] = useState(
     Utils.formatDate(options.date, options),
   );
@@ -64,12 +65,14 @@ const DatePicker = (props) => {
           const date = Utils.parseDateString(value, options);
           setDateText(value);
           if (date) {
+            setSyncCalendar(true);
             onSelect(date);
             setInvalidInput(false);
           } else {
             setInvalidInput(true);
           }
         }}
+        onBlur={() => setSyncCalendar(false)}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
             setDateText(Utils.formatDate(options.date, options));
@@ -89,6 +92,7 @@ const DatePicker = (props) => {
               setActive(false);
               setInvalidInput(false);
             }}
+            syncCalendar={isSyncCalendar}
           />
         </div>
       ) : null}
