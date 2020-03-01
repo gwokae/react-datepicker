@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-datepicker';
 const App = () => {
+  const [datepickerDate, setDatepickerDate] = useState(new Date());
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [calendarDate1, setCalendarDate1] = useState(new Date());
   return (
     <>
       <h1>DatePicker</h1>
-      <DatePicker />
+      <DatePicker
+        date={datepickerDate}
+        onSelect={(d) => setDatepickerDate(d)}
+      />
       <h1>Calendar</h1>
       <div>
         {DatePicker.Utils.formatDate(calendarDate, {

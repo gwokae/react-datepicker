@@ -25,9 +25,12 @@ const DatePicker = (props) => {
     ...Utils.CALENDAR_DEFAULT_OPTIONS,
     ...props.options,
     date,
-    onSelect,
   };
   const [isActive, setActive] = useState(false);
+  const [isInvalidInput, setInvalidInput] = useState(false);
+  const [dateText, setDateText] = useState(
+    Utils.formatDate(options.date, options),
+  );
   // const handleRootClose = () => setActive(false);
   const containerRef = useRef();
 
@@ -48,10 +51,40 @@ const DatePicker = (props) => {
 
   return (
     <Container ref={containerRef}>
-      <input type='text' onFocus={() => setActive(true)} />
+      <input
+        type='text'
+        onFocus={() => setActive(true)}
+        value={dateText}
+        onChange={({ target: { value } }) => {
+          const date = Utils.parseDateString(value, options);
+          setDateText(value);
+          if (date) {
+            onSelect(date);
+            setInvalidInput(false);
+          } else {
+            setInvalidInput(true);
+          }
+        }}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            setDateText(Utils.formatDate(options.date, options));
+            setActive(false);
+            setInvalidInput(false);
+            e.target.blur();
+          }
+        }}
+      />
       {isActive ? (
         <div className='calendar'>
-          <Calendar {...options} />
+          <Calendar
+            {...options}
+            onSelect={(date) => {
+              setDateText(Utils.formatDate(date, options));
+              onSelect(date);
+              setActive(false);
+              setInvalidInput(false);
+            }}
+          />
         </div>
       ) : null}
     </Container>

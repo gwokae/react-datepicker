@@ -111,6 +111,32 @@ export const formatDate = (d, options = CALENDAR_DEFAULT_OPTIONS) => {
   }
   return result;
 };
+const parseMatched = (format, str, re) => {
+  let matches = format.match(re);
+  if (matches) {
+    return parseInt(
+      str.slice(matches.index, matches.index + matches[0].length),
+      10,
+    );
+  }
+};
+export const parseDateString = (str, options = CALENDAR_DEFAULT_OPTIONS) => {
+  const { format } = options;
+
+  if (format.trim().length !== str.trim().length) return;
+
+  // handle year
+  let year = parseMatched(format, str, /\bYYYY\b/);
+
+  // handle month
+  let month = parseMatched(format, str, /\bMM\b/);
+
+  // handle date
+  let date = parseMatched(format, str, /\bDD\b/);
+  if (year !== undefined && month !== undefined && date !== undefined) {
+    return getDate(year, month - 1, date);
+  }
+};
 const equalsDateOptions = { format: 'DD MMM YYYY' };
 export const equalsDate = (d1, d2) =>
   formatDate(d1, equalsDateOptions) === formatDate(d2, equalsDateOptions);
