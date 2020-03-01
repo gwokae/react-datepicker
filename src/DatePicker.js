@@ -11,6 +11,10 @@ const Container = styled.div`
     position: absolute;
     background: white;
   }
+  input.invalid {
+    background-color: #db3d44;
+    color: white;
+  }
 `;
 
 const isEventTriggerInElement = (container, target, root) => {
@@ -55,6 +59,7 @@ const DatePicker = (props) => {
         type='text'
         onFocus={() => setActive(true)}
         value={dateText}
+        className={isInvalidInput ? 'invalid' : null}
         onChange={({ target: { value } }) => {
           const date = Utils.parseDateString(value, options);
           setDateText(value);
