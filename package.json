@@ -13,7 +13,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
     "classnames": "^2.2.6",
-    "node-sass": "^4.13.1"
+    "node-sass": "^7.0.0"
   },
   "scripts": {
     "build": "rimraf lib && npm run build-js",
